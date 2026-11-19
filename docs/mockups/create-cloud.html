@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<!-- Hero Mock: azure-local-create-cloud | Generated: 2026-11-17 -->
+<!-- Description: Proposed "Azure Local" Create Cloud dialog (Configure step) for Morpheus — new cloud type managing Arc-enabled Azure Local instances via ARM (Microsoft.AzureStackHCI, custom locations). New fields are marked with a teal NEW pill. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Local — Create Cloud (Configure) — Mock</title>
+<style>
+:root {
+    --teal: #00A982;
+    --teal-dark: #008A6B;
+    --text: #3c4650;
+    --label: #8a959e;
+    --muted: #9aa5ad;
+    --border: #d8dde1;
+    --input-border: #cfd5d9;
+    --required-red: #e5484d;
+    --banner-bg: #eef5fa;
+    --banner-border: #c7dcea;
+    --banner-text: #44606f;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: #2a3139;
+    line-height: 1.45;
+}
+
+/* Dimmed backdrop */
+.backdrop {
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(20, 26, 32, 0.62), rgba(20, 26, 32, 0.62)),
+        repeating-linear-gradient(0deg, #3a434c 0 48px, #343d46 48px 96px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 36px 16px 64px;
+}
+
+/* Modal card */
+.modal {
+    background: #fff;
+    width: 460px;
+    max-width: 100%;
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px 10px;
+}
+.modal-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    color: #2f3a42;
+}
+.modal-close {
+    border: 0; background: none; cursor: pointer;
+    font-size: 18px; line-height: 1; color: #3c4650; padding: 2px 4px;
+}
+.modal-close:hover { color: #000; }
+
+.modal-body { padding: 4px 18px 18px; }
+
+/* ---- Stepper ---- */
+.stepper {
+    display: flex;
+    align-items: flex-start;
+    padding: 6px 28px 18px;
+}
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 0 0 auto;
+}
+.step-line {
+    flex: 1 1 auto;
+    height: 2px;
+    margin-top: 10px;
+    background: #cfd5d9;
+}
+.step-line.done { background: #3c4650; }
+.step-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #cfd5d9;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+}
+.step.complete .step-dot { border-color: var(--teal); }
+.step.complete .step-dot::after {
+    content: "✓"; color: var(--teal); font-size: 11px; font-weight: 700;
+}
+.step.active .step-dot { border-color: var(--teal); }
+.step.active .step-dot::after {
+    content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--teal);
+}
+.step-label {
+    margin-top: 7px;
+    font-size: 12px;
+    color: var(--label);
+    white-space: nowrap;
+}
+.step.active .step-label { color: var(--teal); }
+.step.complete .step-label { color: #3c4650; }
+
+/* ---- Form rows ---- */
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+.form-label {
+    flex: 0 0 128px;
+    text-align: right;
+    padding-right: 12px;
+    padding-top: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--label);
+    line-height: 1.3;
+}
+.form-field { flex: 1 1 auto; min-width: 0; }
+
+.helper {
+    margin-top: 5px;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+/* Inputs */
+.input-wrap { position: relative; }
+.text-input, .select-input {
+    width: 100%;
+    height: 32px;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: var(--text);
+    border: 1px solid var(--input-border);
+    border-radius: 2px;
+    background: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.text-input::placeholder { color: #aab4bb; }
+.text-input:focus, .select-input:focus {
+    outline: none; border-color: var(--teal);
+}
+.required .text-input, .required .select-input {
+    border-left: 3px solid var(--teal);
+    padding-right: 32px;
+}
+.req-badge {
+    position: absolute;
+    right: 5px; top: 50%;
+    transform: translateY(-50%);
+    width: 18px; height: 14px;
+    background: var(--required-red);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+}
+.req-badge::after {
+    content: "•••";
+    color: #fff; font-size: 8px; letter-spacing: 1px; line-height: 1;
+}
+
+/* Select chevron */
+.select-wrap { position: relative; }
+.select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 12px; top: 50%;
+    width: 7px; height: 7px;
+    border-right: 1.5px solid #8a959e;
+    border-bottom: 1.5px solid #8a959e;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+}
+.select-input { padding-right: 30px; cursor: pointer; }
+.select-input.placeholder { color: #aab4bb; }
+
+/* Checkboxes */
+.checkbox-row {
+    display: flex;
+    margin: 0 0 14px 128px;
+}
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--label);
+    cursor: pointer;
+    user-select: none;
+}
+.cbx {
+    width: 15px; height: 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 2px;
+    background: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 auto;
+}
+.cbx.checked { border-color: var(--teal); }
+.cbx.checked::after { content: "✓"; color: var(--teal); font-size: 10px; font-weight: 700; }
+
+/* Section headings */
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 16px;
+    font-size: 13px;
+    color: #5a646d;
+}
+.section-heading::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--border);
+}
+
+/* Info banner */
+.info-banner {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    background: var(--banner-bg);
+    border: 1px solid var(--banner-border);
+    border-radius: 2px;
+    padding: 8px 10px;
+    margin: 0 0 16px;
+    font-size: 11.5px;
+    color: var(--banner-text);
+    line-height: 1.45;
+}
+.info-banner .icon {
+    flex: 0 0 auto;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: #5b8db2;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    font-style: normal;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+}
+
+/* NEW pill */
+.pill-new {
+    display: inline-block;
+    background: var(--teal);
+    color: #fff;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 1.5px 5px;
+    border-radius: 8px;
+    vertical-align: middle;
+    margin-left: 5px;
+    text-transform: uppercase;
+}
+
+/* Disclosure rows */
+.disclosure {
+    border-top: 1px solid var(--border);
+    padding: 11px 2px;
+    font-size: 13px;
+    color: #5a646d;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.disclosure:last-child { border-bottom: 1px solid var(--border); }
+.disclosure .caret {
+    display: inline-block;
+    font-size: 9px;
+    color: #8a959e;
+    transition: transform 0.15s ease;
+}
+.disclosure.open .caret { transform: rotate(90deg); }
+.disclosure-body {
+    display: none;
+    padding: 4px 2px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px dashed var(--border);
+}
+.disclosure-body.open { display: block; }
+.disclosures { margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="backdrop">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">CREATE CLOUD</div>
+            <button class="modal-close" aria-label="Close">✕</button>
+        </div>
+
+        <!-- Stepper -->
+        <div class="stepper">
+            <div class="step complete">
+                <div class="step-dot"></div>
+                <div class="step-label">Cloud</div>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step active">
+                <div class="step-dot"></div>
+                <div class="step-label">Configure</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-label">Group</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-dot"></div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <!-- Common top fields -->
+            <div class="form-row">
+                <label class="form-label">Name</label>
+                <div class="form-field required">
+                    <div class="input-wrap">
+                        <input type="text" class="text-input" value="">
+                        <span class="req-badge"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Code</label>
+                <div class="form-field">
+                    <input type="text" class="text-input">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Labels</label>
+                <div class="form-field">
+                    <input type="text" class="text-input">
+                    <div class="helper">A comma separated list of labels that can be used to group/organize items.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Location</label>
+                <div class="form-field">
+                    <input type="text" class="text-input">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Visibility</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>Private</option>
+                            <option>Public</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Tenant</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>MorphTeam</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <label class="checkbox-label" onclick="toggleCbx(this)">
+                    <span class="cbx checked"></span> Enabled
+                </label>
+            </div>
+
+            <div class="checkbox-row">
+                <label class="checkbox-label" onclick="toggleCbx(this)">
+                    <span class="cbx checked"></span> Automatically Power On VMs
+                </label>
+            </div>
+
+            <!-- Connection Options -->
+            <div class="section-heading">Connection Options</div>
+
+            <div class="form-row">
+                <label class="form-label">API Proxy</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input placeholder">
+                            <option selected>Select</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="section-heading">Details</div>
+
+            <div class="info-banner">
+                <span class="icon">i</span>
+                <span>Azure Local VMs are managed through Azure Arc (Microsoft.AzureStackHCI). Requires a deployed Azure Local instance with an Arc resource bridge and custom location.</span>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Cloud Type</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>Global</option>
+                            <option>US Gov</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Subscription ID</label>
+                <div class="form-field">
+                    <input type="text" class="text-input">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Tenant ID</label>
+                <div class="form-field">
+                    <input type="text" class="text-input">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Credentials</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>Local Credentials</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Client ID</label>
+                <div class="form-field required">
+                    <div class="input-wrap">
+                        <input type="text" class="text-input">
+                        <span class="req-badge"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Client Secret</label>
+                <div class="form-field required">
+                    <div class="input-wrap">
+                        <input type="password" class="text-input">
+                        <span class="req-badge"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Resource Group</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input placeholder">
+                            <option selected>No Resource Groups found; verify credentials above.</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Azure Local Instance<span class="pill-new">New</span></label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input placeholder">
+                            <option selected>Select an Azure Local instance (cluster)…</option>
+                        </select>
+                    </div>
+                    <div class="helper">Arc-enabled Azure Local instances (Azure Local clusters) discovered in the selected resource group.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Custom Location<span class="pill-new">New</span></label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>s-cluster-customlocation</option>
+                        </select>
+                    </div>
+                    <div class="helper">Custom location used to provision Azure Local VMs.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Default Storage Path<span class="pill-new">New</span></label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>Automatic placement</option>
+                        </select>
+                    </div>
+                    <div class="helper">Storage path for VM configuration and disks; Automatic lets Azure Local choose.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Default Logical Network<span class="pill-new">New</span></label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input placeholder">
+                            <option selected>Select a logical network…</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <label class="checkbox-label" onclick="toggleCbx(this)">
+                    <span class="cbx"></span> Inventory Existing Instances
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Account Type</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>Standard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">RPC Mode</label>
+                <div class="form-field">
+                    <div class="select-wrap">
+                        <select class="select-input">
+                            <option selected>SSH / WinRM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclosure rows -->
+            <div class="disclosures">
+                <div class="disclosure" onclick="toggleDisclosure(this)">
+                    <span class="caret">▶</span> Advanced Options
+                </div>
+                <div class="disclosure-body">Advanced cloud options (appliance URL, time zone, costing, agent install mode…) — collapsed in this mockup.</div>
+                <div class="disclosure" onclick="toggleDisclosure(this)">
+                    <span class="caret">▶</span> Custom Logos
+                </div>
+                <div class="disclosure-body">Logo and dark-logo uploads — collapsed in this mockup.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleDisclosure(el) {
+    el.classList.toggle('open');
+    var body = el.nextElementSibling;
+    if (body && body.classList.contains('disclosure-body')) {
+        body.classList.toggle('open');
+    }
+}
+function toggleCbx(label) {
+    var box = label.querySelector('.cbx');
+    if (box) box.classList.toggle('checked');
+}
+</script>
+</body>
+</html>

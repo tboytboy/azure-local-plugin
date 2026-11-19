@@ -1,0 +1,60 @@
+plugins {
+    id 'groovy'
+    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+group = 'com.tboytboy.azurelocal'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    provided
+}
+
+dependencies {
+    provided "com.morpheusdata:morpheus-plugin-api:$morpheusApiVersion"
+    provided "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+        resources {
+            srcDir 'src/assets'
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Plugin-Class': 'com.morpheusdata.azurelocal.AzureLocalPlugin',
+                'Plugin-Version': version,
+                'Morpheus-Name': 'Azure Local',
+                'Morpheus-Organization': 'tboytboy',
+                'Morpheus-Code': 'azure-local',
+                'Morpheus-Description': 'Connected Azure Local cloud plugin managed through Azure Resource Manager',
+                'Morpheus-Logo': 'assets/azure-local.svg',
+                'Morpheus-Logo-Dark': 'assets/azure-local-dark.svg',
+                'Morpheus-Labels': 'Plugin,Cloud',
+                'Morpheus-Repo': 'https://github.com/tboytboy/azure-local-plugin',
+                'Morpheus-Min-Appliance-Version': '6.3.0'
+        )
+    }
+}
+
+shadowJar {
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+tasks.assemble.dependsOn tasks.shadowJar
